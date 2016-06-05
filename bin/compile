@@ -45,6 +45,16 @@ else
     echo $VERSION > $TEXLIVE_CACHE/VERSION
 fi
 
+build-step "upgrading installed packages"
+tlmgr update --all
+
+build-step "cleanup"
+rm -rf $TEXLIVE_HOME/texmf-dist/doc
+
+# Make sure the cache is empty
+rm -rf $TEXLIVE_CACHE/*
+
+
 # Check for an essential binary to make sure it's installed
 if [ ! `which pdflatex` ]; then
     build-warn "TeX Live installation failed"
